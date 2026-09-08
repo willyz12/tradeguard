@@ -1,18 +1,28 @@
+import { appendFileSync, readFileSync, existsSync, mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { DecisionLogEntry } from "./types.js";
 
+const HERE = dirname(fileURLToPath(import.meta.url));
+const LOG_PATH = join(HERE, "..", "decisions.log.jsonl");
+
 /**
- * Session 1 stub. Session 2 implements real, append-only persistence
- * (flat file or SQLite - decide in Session 2, declare the choice in SESSION_REPORT.md).
- *
- * Per ruleset Section 9.5, every trade/payment/on-chain action must be logged with
- * timestamp, action, size, rationale, and which limit it was checked against - this
- * function is the single place that will happen once it's real. It intentionally
- * throws rather than silently no-op'ing, per Section 6 rule 3: a stub must never
- * pretend to be the real thing.
+ * Append-only JSONL decision log, per Section 9.5. Every line is one
+ * DecisionLogEntry. Never overwritten, never rewritten - only appended.
  */
-export function appendDecisionLog(_entry: DecisionLogEntry): void {
-  throw new Error(
-    "appendDecisionLog is not implemented yet - this is a Session 1 stub. " +
-      "See SESSION_REPORT.md 'Known stubs/mocks/TODOs'."
-  );
+export function appendDecisionLog(entry: DecisionLogEntry): void {
+  const dir = dirname(LOG_PATH);
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+  appendFileSync(LOG_PATH, JSON.stringify(entry) + "\n", "utf8");
+}
+
+/** Reads every entry logged so far today (UTC calendar day), oldest first. */
+export function readTodaysEntries(): DecisionLogEntry[] {
+  if (!existsSync(LOG_PATH)) return [];
+  const todayUtc = new Date().toISOString().slice(0, 10);
+  return readFileSync(LOG_PATH, "utf8")
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line) as DecisionLogEntry)
+    .filter((e) => e.timestampIso.slice(0, 10) === todayUtc);
 }
