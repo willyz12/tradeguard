@@ -1,7 +1,6 @@
 # Binance Agent OS - Natural-Language Trading Agent
 
-Track A submission for the Binance Agent OS Mini Hackathon (deadline: September 8, 2026,
-23:59 UTC).
+Track A submission for the Binance Agent OS Mini Hackathon 
 
 ## What this is
 A natural-language trading agent: you type a plain-English trade request into a
