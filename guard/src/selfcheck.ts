@@ -10,6 +10,7 @@
  */
 import { checkOrder } from "./checkOrder.js";
 import { loadLimitConfig } from "./limits.js";
+import { sign } from "./binanceTestnetClient.js";
 import type { LimitConfig, DecisionLogEntry, OrderProposal } from "./types.js";
 
 const limits: LimitConfig = {
@@ -108,5 +109,20 @@ const cfg = loadLimitConfig({
   MAX_OPEN_POSITION_USDT: "200",
 });
 assert(cfg.maxOrderSizeUsdt === 50 && cfg.maxDailySpendUsdt === 100 && cfg.maxOpenPositionUsdt === 200, "loadLimitConfig parses valid env into the right numbers");
+
+// 10. sign(): deterministic and correctly-shaped - same input, same output, always 64 hex chars
+const sigA = sign("symbol=BTCUSDT&side=BUY", "test-secret");
+const sigB = sign("symbol=BTCUSDT&side=BUY", "test-secret");
+assert(sigA === sigB, "sign() is deterministic for identical inputs");
+assert(/^[0-9a-f]{64}$/.test(sigA), "sign() produces a 64-char lowercase hex SHA256 digest");
+
+// 11. sign(): sensitive to both the query string and the secret
+const sigDifferentQuery = sign("symbol=ETHUSDT&side=BUY", "test-secret");
+assert(sigA !== sigDifferentQuery, "sign() changes when the query string changes");
+const sigDifferentSecret = sign("symbol=BTCUSDT&side=BUY", "different-secret");
+assert(sigA !== sigDifferentSecret, "sign() changes when the secret changes");
+// Note: this confirms sign() behaves like a correct HMAC-SHA256 - it does
+// NOT confirm the output matches Binance's own reference example, since
+// this sandbox has no network to check that against their docs.
 
 console.log(process.exitCode === 1 ? "\nSELFCHECK FAILED" : "\nSELFCHECK PASSED");

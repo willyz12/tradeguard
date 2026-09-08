@@ -33,3 +33,7 @@ Separately from Agent OS, get API keys from Binance's public Spot/Futures testne
 (https://testnet.binance.vision) to validate the order-parsing logic without touching Agent
 OS or real funds at all. This is unrelated to the Agentic sub-account above - Agent OS itself
 has no testnet mode (see RESEARCH_BRIEF.md).
+
+**Never paste those keys into a chat with an AI assistant, including the one that built this
+repo.** Put them in your local `.env` only. `guard/src/binanceTestnetClient.ts` reads them
+from environment variables for exactly this reason.
