@@ -10,16 +10,6 @@ proposal is ever presented to Binance's own confirm-before-execute step. See
 RESEARCH_BRIEF.md for why this project is scoped this way, and BUILD_ROADMAP.md for the full
 session plan.
 
-## Status
-Code complete and pushed to GitHub. **Demo video is the only thing left before submission.**
-
-Before recording, run the pre-recording dry run if you haven't already: start the guard
-server (`npm run dev`), confirm both MCP connectors show in your client, run one real small
-trade end-to-end, check `guard/decisions.log.jsonl` for the entry, then try one order over
-the limit and confirm it's refused. See `docs/DEMO_SCRIPT.md` for the full recording shot
-list. See `SESSION_REPORT.md` for the exact, current state of every file, including what's
-been genuinely tested versus what's written-but-unverified.
-
 ## Structure
 - `skill/` - the system prompt / skill definition pasted into your MCP client
 - `guard/` - a local service that enforces spend/position limits and logs every decision
