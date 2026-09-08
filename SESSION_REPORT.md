@@ -237,3 +237,18 @@ binance-nl-trading-agent/
 
 **Style history (only present on UI-touching sessions):**
 - N/A - no UI work this session.
+
+---
+
+## Session 4 prep (pulled forward, out of order - declared deviation)
+**Date:** 2026-09-06
+**Why out of order:** Session 3's remaining items are still blocked on you (see above), and this project is on a hard deadline (Sept 8, 23:59 UTC). Rather than idle, the pieces of Session 4 that don't depend on Session 3 finishing were pulled forward. This is a deliberate, disclosed scope change (Section 1: "if scope genuinely needs to change mid-flight, the roadmap gets explicitly revised as its own small edit, not silently reinterpreted") - it does not mean Session 3 is done, and BUILD_ROADMAP.md's session order is otherwise unchanged.
+
+**Files added/changed:**
+- docs/DEMO_SCRIPT.md (new) - shot list for the Track A submission video, written so recording is fast once Session 3 unblocks. Explicitly instructs whoever records it to use the real funded sub-account and real limits, not staged numbers.
+- README.md (changed) - added a "How it works" walkthrough and a "Demo" section for judges; corrected the stale "Session 1 of 4" status line to reflect what's actually true right now
+
+**What is still NOT done:** everything in Session 3's "Blocking on you" list above. This entry only covers documentation/planning work; no code, no Agent OS connection, no trades.
+
+**Style history (only present on UI-touching sessions):**
+- N/A - no UI work this session.
